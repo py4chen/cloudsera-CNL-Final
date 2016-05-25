@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="peer.js"> </script>
+    <script src="peer.min.js"> </script>
+</head>
+<body>
+Please see on console!<br />
+<input type="button" value="connect" onclick="connect()">
+<input type="button" value="send" onclick="send()">
+
+
+<script>
+
+    var peer;
+    var myid;
+
+    function connect(){
+        myid = prompt("Please enter your id:");
+        peer = new Peer(myid, {host: 'localhost', port: 9000, path: ''});
+        peer.on('open', function(id) {
+            console.log('My peer ID is: ' + id);
+        });
+
+        peer.on('connection',function(dataConnection){
+            console.log("a connection come in from "+dataConnection.peer);
+            dataConnection.on('data', function (data){
+                console.log(dataConnection.peer+"send you:"+data);
+            });
+        })
+    }
+
+    function send(){
+        // Send messages
+        var dest_id = (prompt("Please enter dest id:")).toString();
+        console.log("dest_id is:", dest_id, dest_id.type);
+
+        var conn = peer.connect(dest_id);
+
+        conn.on("open", function () {
+            conn.send('Hello World');
+        })
+    }
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
+
