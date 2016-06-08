@@ -34,8 +34,11 @@ $(function(){
 			// ctx.fillRect(0, 0, 800, 500);
 			// $('#whiteboard').clear();.get(0).loadFromJSON(data);
 			// ctx.putImageData(data, 0, 0);
-			$('#whiteboard').get(0).getContext("2d").drawImage(JSON.parse(image), 0, 0);
-
+			var myimage = new Image();
+			myimage.src = image
+			$('#whiteboard').get(0).getContext("2d").drawImage(myimage, 0, 0);
+			$('#whiteboard').sketch('actions', []);
+			// $('#whiteboard').get(0).lock()
 		});
 	})
 
@@ -117,10 +120,9 @@ $(function(){
 			// var data = ctx.getImageData(0, 0, $('#whiteboard').get(0).width, $('#whiteboard').get(0).height);
 			// console.log("convas data:"+ JSON.stringify(data));
 
-			var image = new Image();
-			image.src = $('#whiteboard').get(0).toDataURL("image/png");
+			var image = $('#whiteboard').get(0).toDataURL("image/png");
 
-			conn.send(JSON.stringify(image));
+			conn.send(image);
 			console.log("call sb");
 			// console.log(data);
 
