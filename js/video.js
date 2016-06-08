@@ -35,9 +35,11 @@ $(function(){
 			// $('#whiteboard').clear();.get(0).loadFromJSON(data);
 			// ctx.putImageData(data, 0, 0);
 			var myimage = new Image();
-			myimage.src = image
-			$('#whiteboard').get(0).getContext("2d").drawImage(myimage, 0, 0);
-			$('#whiteboard').sketch('actions', []);
+			myimage.src = image;
+			var ctx = $('#whiteboard').get(0).getContext("2d");
+			ctx.drawImage(myimage, 0, 0);
+			ctx.stroke();
+			ctx.redraw();
 			// $('#whiteboard').get(0).lock()
 		});
 	});
