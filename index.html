@@ -1,26 +1,40 @@
 <html>
 	<head>
 		<title>PeerJS - Video chat example</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="css/style.css">
 		<script type="text/javascript" src="js/peer.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/canvas_setting.js"></script>
 		<script type="text/javascript" src="js/sketch.js"></script>
 		<script type="text/javascript" src="js/video.js"></script>
+
+
 	</head>
+
 	<body>
 
-
-		<input type="button" value="send", id="send_button">
-
+	<input type="button" value="send", id="send_button">
 		<div class = 'whiteboard-div'>
+				<canvas id="whiteboard" width="800" height="500" style='border: solid 5px black;'></canvas>
 				<div class="tools">
-					<a href="#whiteboard" data-download="png" style="float: right; width: 100px;">Download</a>
-					<input id="weight" type="text">
-					<input id="weight-submit" type="submit">
+					<div class="brushes">
+					</div>
+					<div class="special-tools">
+						<span class="pen-size">畫筆粗細：</span>
+						<select href='#whiteboard' class="size" name="Pen Size">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="15">15</option>
+							<option value="20">20</option>
+						</select>
+						<a class='eraser' href='#whiteboard' data-color='#FFFFFF'></a>
+						<a class="clear"></a>						
+						<a class="download" href="#whiteboard" data-download="png"></a>
+					</div>
 				</div>
-					<canvas id="whiteboard" width="800" height="500" style='border: solid 5px black;'></canvas>
 		</div>
+
 		<div class="pure-g">
 
 			<!-- Video area -->

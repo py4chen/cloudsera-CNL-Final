@@ -40,7 +40,7 @@ $(function(){
 			$('#whiteboard').sketch('actions', []);
 			// $('#whiteboard').get(0).lock()
 		});
-	})
+	});
 
 	// Click handlers setup
 	$(function(){
