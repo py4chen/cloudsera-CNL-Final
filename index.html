@@ -15,6 +15,7 @@
 	<body>
 
 	<input type="button" value="send", id="send_button">
+
 		<div class = 'whiteboard-div'>
 				<canvas id="whiteboard" width="800" height="500" style='border: solid 5px black;'></canvas>
 				<div class="tools">
@@ -29,7 +30,8 @@
 							<option value="20">20</option>
 						</select>
 						<a class='eraser' href='#whiteboard' data-color='#FFFFFF'></a>
-						<a class="clear"></a>						
+						<!--<a class="clear"></a>-->
+						<a class="clear" href="#whiteboard" data-clear="clear"></a>
 						<a class="download" href="#whiteboard" data-download="png"></a>
 					</div>
 				</div>

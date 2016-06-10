@@ -8,6 +8,7 @@
 
 
 var __slice = Array.prototype.slice;
+
 (function($) {
 
     // Compatibility shim
@@ -60,7 +61,6 @@ var __slice = Array.prototype.slice;
         $('#make-call').click(function(){
             // Initiate a call!
             var call = peer.call($('#callto-id').val(), window.localStream);
-
             step3(call);
         });
 
@@ -121,10 +121,11 @@ var __slice = Array.prototype.slice;
     $('#send_button').click(function send(){
             // Send messages
             var dest_id = $('#callto-id').val();
-            // console.log("dest_id is:", dest_id, dest_id.type);
+            console.log("dest_id is:", dest_id, dest_id.type);
 
             var conn = peer.connect(dest_id);
-
+			
+			
             conn.on("open", function () {
                 // send canvas data
                 // var c = $('#whiteboard');
@@ -133,18 +134,17 @@ var __slice = Array.prototype.slice;
                 // var data = ctx.getImageData(0, 0, $('#whiteboard').get(0).width, $('#whiteboard').get(0).height);
                 // console.log("convas data:"+ JSON.stringify(data));
 
-                var image = $('#whiteboard').get(0).toDataURL("image/png");
+                //var image = $('#whiteboard').get(0).toDataURL("image/png");
 
-                conn.send(image);
+                //conn.send(image);
                 console.log("call sb");
                 // console.log(data);
 
                 // console.log(JSON.parse(JSON.stringify(data)));
                 // ctx.putImageData(JSON.parse(JSON.stringify([data]))[0], 0, 0);
                 // conn.send("hello world");
-            })
-        }
-    )
+            });
+        });
     
 
     
@@ -152,6 +152,7 @@ var __slice = Array.prototype.slice;
 
 
     var Sketch;
+	var temp;
     $.fn.sketch = function() {
         var args, key, sketch;
         key = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
@@ -174,7 +175,10 @@ var __slice = Array.prototype.slice;
         } else if (sketch) {
             return sketch;
         } else {
-            this.data('sketch', new Sketch(this.get(0), key));
+			temp = new Sketch(this.get(0), key);
+			this.data('sketch', temp);
+            //this.data('sketch', new Sketch(this.get(0), key));
+			//console.log(new Sketch(this.get(0), key));
             return this;
         }
     };
@@ -212,10 +216,34 @@ var __slice = Array.prototype.slice;
                     if ($(this).attr('data-download')) {
                         sketch.download($(this).attr('data-download'));
                     }
+					if ($(this).attr('data-clear')) {
+                        sketch.clear();
+                    }
                     return false;
                 });
             }
         }
+		//add clear function
+		Sketch.prototype.clear = function() {
+            this.actions = [];
+			
+			var action = {
+                tool: this.tool,
+                color: this.color,
+                size: parseFloat(this.size),
+                events: []
+            };
+			var dest_id = $('#callto-id').val();
+			var conn = peer.connect(dest_id);
+
+			conn.on("open", function () {
+				conn.send(JSON.stringify(action));
+				console.log("call empty");
+			});
+			return this.redraw('noupdate');
+        };
+		
+		
         Sketch.prototype.download = function(format) {
             var mime;
             format || (format = "png");
@@ -241,7 +269,17 @@ var __slice = Array.prototype.slice;
         Sketch.prototype.stopPainting = function() {
             if (this.action) {
                 this.actions.push(this.action);
-            }
+			
+				//modify
+				var action = this.action;
+				var dest_id = $('#callto-id').val();
+				var conn = peer.connect(dest_id);
+
+				conn.on("open", function () {
+					conn.send(JSON.stringify(action));
+					console.log("call action");
+				});
+			}
             this.painting = false;
             this.action = null;
             return this.redraw('myupdate');
@@ -260,9 +298,11 @@ var __slice = Array.prototype.slice;
             this.el.width = this.canvas.width();
             this.context = this.el.getContext('2d');
             sketch = this;
+			
+			//console.log(this.actions);
             $.each(this.actions, function() {
                 if (this.tool) {
-                    return $.sketch.tools[this.tool].draw.call(sketch, this, update);
+                    return $.sketch.tools[this.tool].draw.call(sketch, this, 'noupdate');
                 }
             });
             if (this.painting && this.action) {
@@ -311,8 +351,10 @@ var __slice = Array.prototype.slice;
             }
             this.context.strokeStyle = action.color;
             this.context.lineWidth = action.size;
+			//console.log(action);
             // console.log("Action:"+);
-            if( update === 'myupdate'){
+			//console.log(this);
+            /*if( update === 'myupdate'){
                 // Send messages
                 var dest_id = $('#callto-id').val();
 
@@ -320,9 +362,9 @@ var __slice = Array.prototype.slice;
 
                 conn.on("open", function () {
                     conn.send(JSON.stringify(action));
-                    console.log("call sb");
+                    console.log("call action");
                 });
-            }
+            }*/
             return this.context.stroke();
         }
 
@@ -333,23 +375,18 @@ var __slice = Array.prototype.slice;
         console.log("a connection canvas data come in from "+dataConnection.peer);
         dataConnection.on('data', function (action_string){
             var action = JSON.parse(action_string);
-            console.log("sb call me");
-
-            // sketch same as in draw:
-            var event, previous, _i, _len, _ref;
-            $.sketch.tools.marker.context.lineJoin = "round";
-            $.sketch.tools.marker.context.lineCap = "round";
-            $.sketch.tools.marker.context.beginPath();
-            $.sketch.tools.marker.context.moveTo(action.events[0].x, action.events[0].y);
-            _ref = action.events;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                event = _ref[_i];
-                $.sketch.tools.marker.context.lineTo(event.x, event.y);
-                previous = event;
-            }
-            $.sketch.tools.marker.context.strokeStyle = action.color;
-            $.sketch.tools.marker.context.lineWidth = action.size;
-            // $('#whiteboard').get(0).lock()
+			
+            //console.log("action call me");
+			//console.log(temp);
+			console.log(action);
+			if(action.events.length === 0){
+				temp.clear();
+			}
+			else{
+				temp.actions.push(action);
+				//temp.redraw("noupdate");
+				$.sketch.tools.marker.draw.call(temp, action, 'noupdate');
+			}
         });
     });
 
