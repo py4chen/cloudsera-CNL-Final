@@ -22,13 +22,13 @@ $(function() {
 		$(this).css('box-shadow', 'none');
 	});
 
-	$('.special-tools>.clear').click(function(e){
+	/*$('.special-tools>.clear').click(function(e){
 		var c=document.getElementById("whiteboard");
 		var ctx=c.getContext("2d");
 		ctx.fillStyle="#FFFFFF";
 		ctx.fillRect(0,0,800,500);
 		$('#whiteboard').sketch('actions',[]);
-	});
+	});*/
 	$('.size').change(function(){
 		$(this).attr('data-size', $(this).val());
 		$('#whiteboard').sketch('size', $(this).val());
