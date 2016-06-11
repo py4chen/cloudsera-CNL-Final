@@ -33,29 +33,6 @@ var __slice = Array.prototype.slice;
         step2();
     });
 
-    // peer.on('connection',function(dataConnection){
-    //
-    //     console.log("a connection canvas data come in from "+dataConnection.peer);
-    //     dataConnection.on('data', function (image){
-    //         console.log("sb call me");
-    //         // console.log("Receive data:"+data_str);
-    //         // var data = JSON.parse(data_str);
-    //         // $('#whiteboard').sketch('action', []);
-    //         // var ctx = $("#whiteboard").get(0).getContext('2d');
-    //         // ctx.fillStyle="#FFFFFF";
-    //         // ctx.fillRect(0, 0, 800, 500);
-    //         // $('#whiteboard').clear();.get(0).loadFromJSON(data);
-    //         // ctx.putImageData(data, 0, 0);
-    //         var myimage = new Image();
-    //         myimage.src = image;
-    //         var ctx = $('#whiteboard').get(0).getContext("2d");
-    //         ctx.drawImage(myimage, 0, 0);
-    //         ctx.stroke();
-    //         ctx.redraw();
-    //         // $('#whiteboard').get(0).lock()
-    //     });
-    // });
-
     // Click handlers setup
     $(function(){
         $('#make-call').click(function(){
@@ -116,39 +93,6 @@ var __slice = Array.prototype.slice;
         $('#step1, #step2').hide();
         $('#step3').show();
     }
-
-
-    $('#send_button').click(function send(){
-            // Send messages
-            var dest_id = $('#callto-id').val();
-            console.log("dest_id is:", dest_id, dest_id.type);
-
-            var conn = peer.connect(dest_id);
-			
-			
-            conn.on("open", function () {
-                // send canvas data
-                // var c = $('#whiteboard');
-                // c_data = JSON.stringify(c);
-                // var ctx = $('#whiteboard').get(0).getContext("2d");
-                // var data = ctx.getImageData(0, 0, $('#whiteboard').get(0).width, $('#whiteboard').get(0).height);
-                // console.log("convas data:"+ JSON.stringify(data));
-
-                //var image = $('#whiteboard').get(0).toDataURL("image/png");
-
-                //conn.send(image);
-                console.log("call sb");
-                // console.log(data);
-
-                // console.log(JSON.parse(JSON.stringify(data)));
-                // ctx.putImageData(JSON.parse(JSON.stringify([data]))[0], 0, 0);
-                // conn.send("hello world");
-            });
-        });
-    
-
-    
-    
 
 
     var Sketch;
@@ -233,7 +177,7 @@ var __slice = Array.prototype.slice;
                 size: parseFloat(this.size),
                 events: []
             };
-			var dest_id = $('#callto-id').val();
+			var dest_id = $('#their-id').text();
 			var conn = peer.connect(dest_id);
 
 			conn.on("open", function () {
@@ -272,7 +216,7 @@ var __slice = Array.prototype.slice;
 			
 				//modify
 				var action = this.action;
-				var dest_id = $('#callto-id').val();
+				var dest_id = $('#their-id').text();
 				var conn = peer.connect(dest_id);
 
 				conn.on("open", function () {
@@ -375,7 +319,7 @@ var __slice = Array.prototype.slice;
         console.log("a connection canvas data come in from "+dataConnection.peer);
         dataConnection.on('data', function (action_string){
             var action = JSON.parse(action_string);
-			
+
             //console.log("action call me");
 			//console.log(temp);
 			console.log(action);
