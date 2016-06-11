@@ -1,13 +1,12 @@
 <html>
 	<head>
-		<title>PeerJS - Video chat example</title>
+		<title>Cloudsera - P2P Video/Canvas Chatroom</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="css/style.css">
 		<script type="text/javascript" src="js/peer.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/canvas_setting.js"></script>
 		<script type="text/javascript" src="js/sketch.js"></script>
-		<!--<script type="text/javascript" src="js/video.js"></script>-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.1.0/milligram.css">
@@ -16,13 +15,28 @@
 
 	<body>
 
+		<section class="head-line">
+			<div class="head-row">
+				<img src="./image/logo_row.png" alt="Cloudsera" style="width:315px;height:85px;margin:15px; float:left;">
+					<label class="login_label"> Enter your ID: </label>
+					<input class="login_style" id='my-id' type="text" name="sign-in-id" style="width: 200px; height: 50px;">
+					<button class="login_style" id="signin-button" type="button" >Sign in</button>
 
+					<label class="login_label"> ID to Call: </label>
+					<input class="login_style" id='callto-id' type="text" name="call-to-id" style="width: 200px; height: 50px;">
+					<button class="login_style" id="connect-button" type="button" >Connect</button>
+					<button class="login_style button button-outline" id="end-call" type="button" style="display: none">Disconnect</button>
+			</div>
+		</section>
+
+		<section class="data-container">
 		<section class = 'whiteboard-container'>
+				<label style="font-size:25px;">Cloudsera Whiteboard</label>
 				<canvas id="whiteboard" width="800" height="500" style='border: solid 5px black;'></canvas>
 				<div class="tools">
 					<div class="brushes"></div>
 					<div class="special-tools">
-						<label data-color="black">畫筆粗細：</label>
+						<label data-color="black">Brush Roughness：</label>
 						<select href='#whiteboard' class="size" name="Pen Size">
 							<option value="5">5</option>
 							<option value="10">10</option>
@@ -38,46 +52,57 @@
 				</div>
 		</section>
 
-		<div class="pure-g">
 
-			<!-- Video area -->
-			<div class="pure-u-2-3" id="video-container">
-				<video id="their-video" autoplay></video>
+
+		<section class="videoboard-container">
+			<div style="margin-top: 50px">
+				<label style="font-size:20px"> Your Camera: </label>
 				<video id="my-video" muted="true" autoplay></video>
+				<br /><br />
+				<label style="font-size:20px; display: inline-block" id="dest-id"> His/Her</label>
+				<label style="font-size:20px; display: inline-block"> Camera: </label>
+				<video id="their-video" autoplay> </video>
 			</div>
+			<!--</div>-->
 
-			<!-- Steps -->
-			<div class="pure-u-1-3">
-				<h2>PeerJS Video Chat</h2>
+		</section>
 
-				<!-- Get local audio/video stream -->
-				<div id="step1">
-					<p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
-					<div id="step1-error">
-						<p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
-						<a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
-					</div>
-				</div>
 
-				<!-- Make calls to others -->
-				<div id="step2">
-					<p>Your id: <span id="my-id">...</span></p>
-					<p>Share this id with others so they can call you.</p>
-					<h3>Make a call</h3>
-					<div class="pure-form">
-						<input type="text" placeholder="Call user id..." id="callto-id">
-						<a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
-					</div>
-				</div>
+		</section>
+		<p style="font-size: 20px;"> CNL Team02 <br /> 2016.6</p>
 
-				<!-- Call in progress -->
-				<div id="step3">
-					<p>Currently in call with <span id="their-id">...</span></p>
-					<p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>
-				</div>
-			</div>
-		</div>
 
+
+		<!--&lt;!&ndash; Steps &ndash;&gt;-->
+		<!--<div class="pure-u-1-3">-->
+			<!--<h2>PeerJS Video Chat</h2>-->
+
+			<!--&lt;!&ndash; Get local audio/video stream &ndash;&gt;-->
+			<!--<div id="step1">-->
+				<!--<p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>-->
+				<!--<div id="step1-error">-->
+					<!--<p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>-->
+					<!--<a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<!--&lt;!&ndash; Make calls to others &ndash;&gt;-->
+			<!--<div id="step2">-->
+				<!--<p>Your id: <span id="my-id2">...</span></p>-->
+				<!--<p>Share this id with others so they can call you.</p>-->
+				<!--<h3>Make a call</h3>-->
+				<!--<div class="pure-form">-->
+					<!--<input type="text" placeholder="Call user id..." id="callto-id2">-->
+					<!--<a href="#" class="pure-button pure-button-success" id="make-call">Call</a>-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<!--&lt;!&ndash; Call in progress &ndash;&gt;-->
+			<!--<div id="step3">-->
+				<!--<p>Currently in call with <span id="their-id">...</span></p>-->
+				<!--<p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>-->
+			<!--</div>-->
+		<!--</div>-->
 
 	</body>
 </html>

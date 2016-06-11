@@ -14,31 +14,76 @@ var __slice = Array.prototype.slice;
     // Compatibility shim
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
+    var dest_id = null;
+
     // PeerJS object
-    var peer = new Peer({ key: 'lwjd5qra8257b9', debug: 3});
+    var peer = null;
+    // console.log($('#signin-button'));
+    $(function (){
+        $('#signin-button').click(function () {
+            if(($('#my-id').val()).length < 3){
+                alert("ID length should more than 3");
+                return;
+            }
+            peer = new Peer($('#my-id').val(), {host: 'linux3.csie.org', port: 9090, path: ''});
+            peer.on('open', function(){
+                $('#my-id').val(peer.id);
+                $('#my-id').prop('readonly', true);
+                $('#signin-button').text("SIGNED");
+                $('#signin-button').css("background-color", '#303030 ');
+                $('#signin-button').unbind("click");
+            });
 
-    peer.on('open', function(){
-        $('#my-id').text(peer.id);
+            // Receiving a call
+            peer.on('call', function(call){
+                // Answer the call automatically (instead of prompting user) for demo purposes
+                call.answer(window.localStream);
+                step3(call);
+            });
+            peer.on('error', function(err){
+                alert(err.message);
+                // Return to step 2 if error occurs
+                step2();
+            });
+
+            peer.on('connection',function(dataConnection){
+                console.log("a connection canvas data come in from "+dataConnection.peer);
+                dataConnection.on('data', function (action_string){
+                    var action = JSON.parse(action_string);
+
+                    //console.log("action call me");
+                    //console.log(temp);
+                    console.log(action);
+                    if(action.events.length === 0){
+                        temp.clear(flag=false);
+                    }
+                    else{
+                        temp.actions.push(action);
+                        //temp.redraw("noupdate");
+                        $.sketch.tools.marker.draw.call(temp, action, 'noupdate');
+                    }
+                });
+            });
+        });
     });
 
-    // Receiving a call
-    peer.on('call', function(call){
-        // Answer the call automatically (instead of prompting user) for demo purposes
-        call.answer(window.localStream);
-        step3(call);
-    });
-    peer.on('error', function(err){
-        alert(err.message);
-        // Return to step 2 if error occurs
-        step2();
-    });
+
+
+
 
     // Click handlers setup
     $(function(){
-        $('#make-call').click(function(){
+        $('#connect-button').click(function(){
             // Initiate a call!
-            var call = peer.call($('#callto-id').val(), window.localStream);
-            step3(call);
+            if(peer == null){
+                alert("Please SIGN IN first!");
+            }
+            else {
+                var call = peer.call($('#callto-id').val(), window.localStream);
+                dest_id = $('#callto-id').val();
+                $('#callto-id').prop('readonly', true);
+                step3(call);
+            }
         });
 
         $('#end-call').click(function(){
@@ -68,8 +113,16 @@ var __slice = Array.prototype.slice;
     }
 
     function step2 () {
-        $('#step1, #step3').hide();
-        $('#step2').show();
+        dest_id = null;
+        $('#callto-id').prop('readonly', false);
+
+        $('#end-call').hide();
+        $('#connect-button').show();
+        $("#dest-id").text("His/Her");
+
+
+        // $('#step1, #step3').hide();
+        // $('#step2').show();
     }
 
     function step3 (call) {
@@ -81,17 +134,19 @@ var __slice = Array.prototype.slice;
         // Wait for stream on the call, then set peer video display
         call.on('stream', function(stream){
             $('#their-video').prop('src', URL.createObjectURL(stream));
-
-
-
         });
 
         // UI stuff
         window.existingCall = call;
-        $('#their-id').text(call.peer);
+        $('#callto-id').val(call.peer);
+        dest_id = call.peer;
+        $("#dest-id").text(dest_id);
         call.on('close', step2);
-        $('#step1, #step2').hide();
-        $('#step3').show();
+        $('#callto-id').prop('readonly', true);
+        $('#connect-button').hide();
+        $('#end-call').show();
+        // $('#step1, #step2').hide();
+        // $('#step3').show();
     }
 
 
@@ -168,7 +223,7 @@ var __slice = Array.prototype.slice;
             }
         }
 		//add clear function
-		Sketch.prototype.clear = function() {
+		Sketch.prototype.clear = function(flag=true) {
             this.actions = [];
 			
 			var action = {
@@ -177,13 +232,15 @@ var __slice = Array.prototype.slice;
                 size: parseFloat(this.size),
                 events: []
             };
-			var dest_id = $('#their-id').text();
-			var conn = peer.connect(dest_id);
+            if(flag==true && $("#dest-id").text() != "His/Her") {
+                var dest_id = $('#callto-id').val();
+                var conn = peer.connect(dest_id);
 
-			conn.on("open", function () {
-				conn.send(JSON.stringify(action));
-				console.log("call empty");
-			});
+                conn.on("open", function () {
+                    conn.send(JSON.stringify(action));
+                    console.log("call empty");
+                });
+            }
 			return this.redraw('noupdate');
         };
 		
@@ -211,12 +268,12 @@ var __slice = Array.prototype.slice;
             };
         };
         Sketch.prototype.stopPainting = function() {
-            if (this.action) {
+            if (this.action && $("#dest-id").text() != "His/Her") {
                 this.actions.push(this.action);
 			
 				//modify
 				var action = this.action;
-				var dest_id = $('#their-id').text();
+				var dest_id = $('#callto-id').val();
 				var conn = peer.connect(dest_id);
 
 				conn.on("open", function () {
@@ -313,26 +370,6 @@ var __slice = Array.prototype.slice;
         }
 
     };
-
-
-    peer.on('connection',function(dataConnection){
-        console.log("a connection canvas data come in from "+dataConnection.peer);
-        dataConnection.on('data', function (action_string){
-            var action = JSON.parse(action_string);
-
-            //console.log("action call me");
-			//console.log(temp);
-			console.log(action);
-			if(action.events.length === 0){
-				temp.clear();
-			}
-			else{
-				temp.actions.push(action);
-				//temp.redraw("noupdate");
-				$.sketch.tools.marker.draw.call(temp, action, 'noupdate');
-			}
-        });
-    });
 
 
     return $.sketch.tools.eraser = {

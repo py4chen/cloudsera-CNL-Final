@@ -1,7 +1,7 @@
 
 #whiteboard {
 	background: white;	
-	margin-top: 50px;
+	margin-top: 5px;
 	margin-left: 10px;
 }
 
@@ -74,12 +74,14 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
   width: 280px;
   height: auto;
   background-color: #eee;
+
 	/* position: absolute;*/
 }
 
 #their-video {
-width: 100%;
-height: 75%;
+  margin-top: 15px;
+width: 280px;
+height: auto;
 max-height: 480px;
 background-color: #eee;
  /*position: absolute;*/
@@ -130,7 +132,6 @@ outline: none;
 
 .special-tools {
   /*position: absolute;*/
-  /*left: 400px;*/
   width: 40px;
   display: table-cell;
 }
@@ -200,11 +201,71 @@ body {
 }
 
 section.whiteboard-container {
-  margin: 32px auto;
+  margin: 25px auto;
   padding: 32px;
   width: 1000px;
   height: 800px;
   background: white;
   box-shadow: 0 0 8px #aaa;
   text-align: center;
+  float:left;
+
+}
+
+section.videoboard-container{
+  margin: 25px auto;
+  /*padding: 32px;*/
+  width: 350px;
+  height: 800px;
+  background: white;
+  box-shadow: 0 0 8px #aaa;
+  text-align: center;
+  float:left;
+
+
+}
+
+section.data-container{
+  /*clear:both;*/
+  margin:0px auto;
+  width: 1350px;
+  height: 900px;
+  /*background: red;*/
+}
+
+section.head-line{
+  margin:0px auto;
+  width: 1350px;
+  height: 105px;
+  box-shadow: 0 0 8px #aaa;
+  background: #e6e6e6;
+}
+
+div.head-row {
+  /*position: absolute;*/
+  /*left: 10px;*/
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.login_style{
+  float:left;
+  margin-top: 50px;
+  margin-left:10px;
+  display: inline-block;
+  font-size: 15px;
+  vertical-align: bottom;
+  height: 50px;
+}
+
+.login_label{
+  float:left;
+  margin-top: 60px;
+  margin-left:20px;
+  display: inline-block;
+  font-size: 20px;
+  vertical-align: bottom;
+  height: 50px;
 }
