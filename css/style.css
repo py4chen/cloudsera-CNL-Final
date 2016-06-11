@@ -188,3 +188,18 @@ outline: none;
   display: block;
   top: 5px;
 }
+
+body {
+  background: #ddd;
+  text-align: center;
+  color: #fff;
+}
+
+section.whiteboard-container {
+  margin: 32px auto;
+  padding: 32px;
+  width: 1200px;
+  height: 3000px;
+  background: white;
+  box-shadow: 0 0 8px #aaa;
+}
