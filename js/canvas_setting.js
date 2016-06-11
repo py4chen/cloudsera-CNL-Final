@@ -3,11 +3,10 @@ $(function() {
 		$('.brushes').append("<a class='brush' href='#whiteboard' data-color='" + this + "' style='width: 50px; height: 50px; background: " + this + "; display: inline-block;'></a> ");
 	});
 	$('.brushes').append("<br>");
-	$('.brushes').append("<span style='width: 50px; height: 50px; display: inline-block;'></span> ");
+	// $('.brushes').append("<span style='width: 50px; height: 50px; display: inline-block;'></span> ");
 	$.each(['rgb(250, 208, 222)', 'rgb(148, 109, 155)', 'rgb(135, 94, 55)', 'rgb(142, 150, 155)', 'rgb(0, 0, 0)'], function() {
 		$('.brushes').append("<a class='brush' href='#whiteboard' data-color='" + this + "' style='width: 50px; height: 50px; background: " + this + "; display: inline-block;'></a> ");
 	});
-
 
 	$('#whiteboard').sketch();
 

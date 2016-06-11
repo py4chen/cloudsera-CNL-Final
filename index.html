@@ -8,7 +8,9 @@
 		<script type="text/javascript" src="js/canvas_setting.js"></script>
 		<script type="text/javascript" src="js/sketch.js"></script>
 		<!--<script type="text/javascript" src="js/video.js"></script>-->
-
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.1.0/milligram.css">
 
 	</head>
 
@@ -20,15 +22,16 @@
 				<div class="tools">
 					<div class="brushes"></div>
 					<div class="special-tools">
-						<span class="pen-size">畫筆粗細：</span>
+						<label data-color="black">畫筆粗細：</label>
 						<select href='#whiteboard' class="size" name="Pen Size">
 							<option value="5">5</option>
 							<option value="10">10</option>
 							<option value="15">15</option>
 							<option value="20">20</option>
 						</select>
+					</div>
+					<div class="image-tools">
 						<a class='eraser' href='#whiteboard' data-color='#FFFFFF'></a>
-						<!--<a class="clear"></a>-->
 						<a class="clear" href="#whiteboard" data-clear="clear"></a>
 						<a class="download" href="#whiteboard" data-download="png"></a>
 					</div>

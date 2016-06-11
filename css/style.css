@@ -112,40 +112,36 @@ outline: none;
 }
 
 .tools {
-  position: absolute;
-  left: 10px;
+  /*position: absolute;*/
+  /*left: 10px;*/
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 10px;
+  text-align: center;
 }
 
 .brushes {
-  position: absolute;
-  display: block;
-  width: 400px;
+  /*position: absolute;*/
+  width: 120px;
   height: auto;
+  display: table-cell;
 }
 
 .special-tools {
-  position: absolute;
-  display: block;
-  left: 400px;
-  width: 1000px;
+  /*position: absolute;*/
+  /*left: 400px;*/
+  width: 40px;
+  display: table-cell;
 }
 
-.special-tools>*:not(span) {
-  position: absolute;
-  margin-top: 5px;
-  display: inline-block;
-  box-shadow: 5px 5px 5px #888888;
-  text-align: center;
-  text-decoration: none;
-  color: #000000;
-}
 
 .clear {
   border: 5px solid #000000;
   height: 70px;
   width: 85px;
   box-sizing: border-box;
-  left: 225px;
+  display: table-cell;
 }
 
 
@@ -159,9 +155,9 @@ outline: none;
 
 
 .size {
-  width: 120px;
-  display: block;
-  top: 25px;
+  width: 100px;
+  /*display: block;*/
+  /*top: 25px;*/
 }
 
 .eraser {
@@ -170,7 +166,8 @@ outline: none;
   height: 70px;
   background-image: url(../image/eraser.jpg);
   background-size: cover;
-  left: 130px;
+  /*left: 130px;*/
+  display: table-cell;
 }
 
 .download {
@@ -180,13 +177,20 @@ outline: none;
   height: 75px;
   background-image: url(../image/download.png);
   background-size: cover;
-  left: 320px;
+  /*left: 320px;*/
+  display: table-cell;
 }
 
 .pen-size {
-  position: absolute;
+  /*position: absolute;*/
   display: block;
-  top: 5px;
+  /*top: 5px;*/
+}
+
+.image-tools{
+  /*left:500px;*/
+  width: 70px;
+  display: table-cell;
 }
 
 body {
@@ -198,8 +202,9 @@ body {
 section.whiteboard-container {
   margin: 32px auto;
   padding: 32px;
-  width: 1200px;
-  height: 3000px;
+  width: 1000px;
+  height: 800px;
   background: white;
   box-shadow: 0 0 8px #aaa;
+  text-align: center;
 }
